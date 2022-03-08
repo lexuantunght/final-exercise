@@ -48,8 +48,8 @@ const ProjectList: React.FC = () => {
 
   const mapDisplayDate = (project: IProject) =>
     Object.assign(project, {
-      startDate: moment(project.startDate).toDate().toLocaleString("de-CH"),
-      endDate: moment(project.endDate).toDate().toLocaleString("de-CH"),
+      startDate: moment(project.startDate).format("yyyy-MM-dd"),
+      endDate: moment(project.endDate).format("yyyy-MM-dd"),
     });
 
   return isLoading ? (
