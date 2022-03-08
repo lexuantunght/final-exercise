@@ -1,51 +1,36 @@
-import { AppBar } from '@material-ui/core';
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import TabRouteNavs, { CustomTab } from './common/components/TabRoutesNav';
-import ProjectList from './screens/ProjectList/ProjectList';
+import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import HeaderBar from "./common/components/HeaderBar";
+import ProjectList from "./screens/ProjectList";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      refetchOnMount: true,
     },
   },
 });
-
-const MainTabs: CustomTab[] = [
-  {
-    key: 'home',
-    title: 'Home',
-    href: '/home',
-  },
-  {
-    key: 'project-list',
-    title: 'Project List',
-    href: '/project-list',
-  },
-];
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <main>
-          <AppBar position='static'>
-            <TabRouteNavs tabs={MainTabs} />
-          </AppBar>
+        <div className="p-3">
+          <HeaderBar />
           <Switch>
-            <Route path='/project-list'>
+            <Route path="/project-list">
               <ProjectList />
             </Route>
-            <Route path='/home' exact>
+            <Route path="/home" exact>
               Home
             </Route>
-            <Route path='/'>
-              <Redirect to='/home' />
+            <Route path="/">
+              <Redirect to="/home" />
             </Route>
           </Switch>
-        </main>
+        </div>
       </BrowserRouter>
     </QueryClientProvider>
   );
