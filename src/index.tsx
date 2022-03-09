@@ -1,16 +1,16 @@
-import { ThemeProvider } from "@material-ui/core";
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import theme from "./common/theme";
-import "./index.css";
-import "primereact/resources/themes/lara-light-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './utils/i18n';
+import App from './App';
+import './index.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import { Provider } from 'react-redux';
+import store from './utils/redux/store';
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
-  document.getElementById("root")
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 );

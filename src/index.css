@@ -1,7 +1,8 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
-  background-color: var(--surface-ground);
-  color: var(--text-color);
+    margin: 0;
+    background-color: var(--surface-ground);
+    color: var(--text-color);
+    font-family: var(--font-family);
 }
