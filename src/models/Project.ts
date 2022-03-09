@@ -1,6 +1,4 @@
-import { ProjectStatus } from './ProjectStatusEnum';
-
-export interface IProject {
+export type Project = {
     id: string;
     startDate: Date;
     endDate: Date;
@@ -9,5 +7,5 @@ export interface IProject {
     customer: string;
     group: string;
     members: string;
-    status: ProjectStatus;
-}
+    status: string;
+};

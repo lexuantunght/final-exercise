@@ -24,27 +24,50 @@ function App() {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
     const lang = useSelector((state: RootState) => state.app.lang);
-    React.useEffect(() => {
+
+    const changeTheme = (theme: string) => {
+        const themeLink = document.getElementById(
+            'app-theme'
+        ) as HTMLLinkElement;
+        if (themeLink) {
+            themeLink.href = `https://unpkg.com/primereact/resources/themes/lara-${theme}-blue/theme.css`;
+        }
+    };
+
+    const onChangePalette = (palette: string) => {
+        if (palette === 'system') {
+            const mode = window.matchMedia('(prefers-color-scheme: dark)')
+                .matches
+                ? 'dark'
+                : 'light';
+            changeTheme(mode);
+        } else {
+            changeTheme(palette);
+        }
+        dispatch({ type: DispatchType.APP.PALETTE, data: palette });
+    };
+
+    React.useLayoutEffect(() => {
         const language = Cookies.get('lang') || 'en';
         dispatch({
             type: DispatchType.APP.LANG,
             data: language,
         });
         i18n.changeLanguage(language);
-        dispatch({
-            type: DispatchType.APP.PALETTE,
-            data: Cookies.get('palette') || 'dark',
-        });
-    }, [dispatch, i18n]);
+        const theme = Cookies.get('palette') || 'dark';
+        onChangePalette(theme);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     const pageProps = {
         t,
         lang,
     };
+
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <div className="flex flex-col p-4 min-h-screen">
-                    <HeaderBar />
+                    <HeaderBar onChangeTheme={onChangePalette} />
                     <Switch>
                         <Route path="/create-project">
                             <CreateProjectPage {...pageProps} />

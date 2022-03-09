@@ -10,12 +10,52 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../utils/redux/store';
+import { DispatchType } from '../../common/constants';
+import useFetchGroups from '../../hooks/useGroups';
+import LoadingMask from '../../common/components/LoadingMask';
+import useFetchStatuses from '../../hooks/useStatuses';
+import useFetchMembers from '../../hooks/useMembers';
 
 const CreateProjectPage: React.FC<BasePageProps> = (props) => {
     const { t } = props;
+    const dispatch = useDispatch();
+    const { data: groups, isLoading: isGroupsLoading } = useFetchGroups();
+    const { data: statuses, isLoading: isStatusesLoading } = useFetchStatuses();
+    const { data: members, isLoading: isMembersLoading } = useFetchMembers();
+    const filteredMembers = useSelector(
+        (state: RootState) => state.create_proj.filteredMembers
+    );
+
+    const searchMember = (event: { query: string }) => {
+        setTimeout(() => {
+            let _filteredMembers;
+            if (!event.query.trim().length) {
+                _filteredMembers = [...(members ?? [])];
+            } else {
+                _filteredMembers = members?.filter((member) => {
+                    return (
+                        member.name
+                            .toLowerCase()
+                            .startsWith(event.query.toLowerCase()) ||
+                        member.visa
+                            .toLowerCase()
+                            .startsWith(event.query.toLowerCase())
+                    );
+                });
+            }
+
+            dispatch({
+                type: DispatchType.CREATE_PROJ.FILTERED_MEMS,
+                data: _filteredMembers,
+            });
+        }, 250);
+    };
+
     const formik = useFormik({
         initialValues: {
-            number: 0,
+            number: null,
             name: '',
             group: '',
             customer: '',
@@ -26,6 +66,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
         },
         onSubmit: () => {},
     });
+
+    if (isGroupsLoading || isStatusesLoading || isMembersLoading) {
+        return <LoadingMask />;
+    }
 
     return (
         <PageWrapper>
@@ -84,22 +128,22 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                                 <Dropdown
                                     id="group"
                                     name="group"
-                                    options={[]}
+                                    options={groups}
                                     value={formik.values.group}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     optionLabel="name"
-                                    optionValue="name"
+                                    optionValue="id"
                                 />
                             </div>
-                            <div className="flex flex-col space-y-2">
+                            <div className="flex flex-col space-y-2 p-fluid">
                                 <label htmlFor="members">{t('members')}</label>
                                 <AutoComplete
                                     id="members"
                                     name="members"
                                     value={formik.values.members}
-                                    suggestions={[]}
-                                    completeMethod={() => {}}
+                                    suggestions={filteredMembers}
+                                    completeMethod={searchMember}
                                     field="name"
                                     multiple
                                     onChange={formik.handleChange}
@@ -111,12 +155,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                                 <Dropdown
                                     id="status"
                                     name="status"
-                                    options={[]}
+                                    options={statuses}
                                     value={formik.values.status}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     optionLabel="name"
-                                    optionValue="name"
+                                    optionValue="id"
                                 />
                             </div>
                             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:justify-between pb-4">

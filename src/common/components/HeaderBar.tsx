@@ -9,22 +9,15 @@ import { RootState } from '../../utils/redux/store';
 import { DispatchType } from '../constants';
 import { useTranslation } from 'react-i18next';
 
-const HeaderBar: React.FC = () => {
+const HeaderBar: React.FC<{ onChangeTheme: CallableFunction }> = ({
+    onChangeTheme,
+}) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
     const palette = useSelector((state: RootState) => state.app.palette);
     const lang = useSelector((state: RootState) => state.app.lang);
     const [showSetting, setShowSetting] = React.useState(false);
-
-    const changeTheme = (theme: string) => {
-        const themeLink = document.getElementById(
-            'app-theme'
-        ) as HTMLLinkElement;
-        if (themeLink) {
-            themeLink.href = `https://unpkg.com/primereact/resources/themes/lara-${theme}-blue/theme.css`;
-        }
-    };
 
     const onClickSetting = () => {
         setShowSetting(true);
@@ -33,19 +26,6 @@ const HeaderBar: React.FC = () => {
     const onChangeLang = (lang: string) => {
         i18n.changeLanguage(lang);
         dispatch({ type: DispatchType.APP.LANG, data: lang });
-    };
-
-    const onChangePalette = (palette: string) => {
-        if (palette === 'system') {
-            const mode = window.matchMedia('(prefers-color-scheme: dark)')
-                .matches
-                ? 'dark'
-                : 'light';
-            changeTheme(mode);
-        } else {
-            changeTheme(palette);
-        }
-        dispatch({ type: DispatchType.APP.PALETTE, data: palette });
     };
 
     const items = [
@@ -87,7 +67,7 @@ const HeaderBar: React.FC = () => {
                 }
                 end={
                     <div className="flex items-center space-x-2 md:space-x-4">
-                        <div>{`v${
+                        <div className="lowercase">{`v${
                             require('../../../package.json').version
                         }`}</div>
                         <Button
@@ -109,7 +89,7 @@ const HeaderBar: React.FC = () => {
                         id="mode"
                         options={themeOptions}
                         value={palette}
-                        onChange={(e) => onChangePalette(e.value)}
+                        onChange={(e) => onChangeTheme(e.value)}
                         itemTemplate={(option) => (
                             <i className={option.icon}></i>
                         )}

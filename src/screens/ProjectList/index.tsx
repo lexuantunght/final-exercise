@@ -2,9 +2,9 @@ import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Card } from 'primereact/card';
-import useProjects from '../../hooks/useProjects';
+import useFetchProjects from '../../hooks/useProjects';
 import paginatorTemp from '../../common/components/paginatorTemp';
-import { IProject } from '../../models/IProject';
+import { Project } from '../../models/Project';
 import moment from 'moment';
 import LoadingMask from '../../common/components/LoadingMask';
 import PageWrapper from '../../common/components/PageWrapper';
@@ -45,9 +45,9 @@ const columns = [
 ];
 
 const ProjectList: React.FC = () => {
-    const { data, isLoading } = useProjects();
+    const { data, isLoading } = useFetchProjects();
 
-    const mapDisplayDate = (project: IProject) =>
+    const mapDisplayDate = (project: Project) =>
         Object.assign(project, {
             startDate: moment(project.startDate).format('yyyy-MM-DD'),
             endDate: moment(project.endDate).format('yyyy-MM-DD'),
