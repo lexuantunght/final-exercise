@@ -1,64 +1,64 @@
 {
-    "name": "final-exercise",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@types/js-cookie": "^3.0.1",
-        "@types/node": "^12.0.0",
-        "@types/react": "^17.0.0",
-        "@types/react-dom": "^17.0.0",
-        "@types/react-router-dom": "^5.1.7",
-        "axios": "^0.21.1",
-        "faker": "^5.5.3",
-        "formik": "^2.2.8",
-        "history": "4.9.0",
-        "i18next": "^20.3.1",
-        "js-cookie": "^3.0.1",
-        "json-server": "^0.16.3",
-        "moment": "^2.29.1",
-        "primeicons": "^5.0.0",
-        "primereact": "^7.2.1",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-i18next": "^11.10.0",
-        "react-query": "^3.34.16",
-        "react-redux": "^7.2.6",
-        "react-router-dom": "^5.2.0",
-        "react-scripts": "5.0.0",
-        "react-transition-group": "^4.4.2",
-        "redux": "^4.1.2",
-        "typescript": "^4.1.2",
-        "yup": "^0.32.9"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "seed": "node src/seed.js",
-        "server": "json-server --watch db.json --port 3001"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "autoprefixer": "^10.4.2",
-        "postcss": "^8.4.8",
-        "tailwindcss": "^3.0.23"
-    }
+  "name": "final-exercise",
+  "version": "0.2.1",
+  "private": true,
+  "dependencies": {
+    "@types/js-cookie": "^3.0.1",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
+    "faker": "^5.5.3",
+    "formik": "^2.2.8",
+    "history": "4.9.0",
+    "i18next": "^20.3.1",
+    "js-cookie": "^3.0.1",
+    "json-server": "^0.16.3",
+    "moment": "^2.29.1",
+    "primeicons": "^5.0.0",
+    "primereact": "^7.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.10.0",
+    "react-query": "^3.34.16",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "5.0.0",
+    "react-transition-group": "^4.4.2",
+    "redux": "^4.1.2",
+    "typescript": "^4.1.2",
+    "yup": "^0.32.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "seed": "node src/seed.js",
+    "server": "json-server --watch db.json --port 3001"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.8",
+    "tailwindcss": "^3.0.23"
+  }
 }

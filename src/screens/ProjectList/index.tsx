@@ -25,10 +25,12 @@ const columns = [
   {
     field: 'startDate',
     headerName: 'Start Date',
+    body: (rowData: Project) => moment(rowData.startDate).format('yyyy-MM-DD'),
   },
   {
     field: 'endDate',
     headerName: 'End Date',
+    body: (rowData: Project) => moment(rowData.endDate).format('yyyy-MM-DD'),
   },
   {
     field: 'group',
@@ -37,6 +39,7 @@ const columns = [
   {
     field: 'members',
     headerName: 'Members',
+    body: (rowData: Project) => rowData.members.map((m) => m.name).join(', '),
   },
   {
     field: 'status',
@@ -47,12 +50,6 @@ const columns = [
 const ProjectList: React.FC = () => {
   const { data, isLoading } = useFetchProjects();
 
-  const mapDisplayDate = (project: Project) =>
-    Object.assign(project, {
-      startDate: moment(project.startDate).format('yyyy-MM-DD'),
-      endDate: moment(project.endDate).format('yyyy-MM-DD'),
-    });
-
   if (isLoading) {
     return <LoadingMask />;
   }
@@ -61,7 +58,7 @@ const ProjectList: React.FC = () => {
     <PageWrapper>
       <Card>
         <DataTable
-          value={data?.map(mapDisplayDate)}
+          value={data}
           paginator
           paginatorTemplate={paginatorTemp}
           first={0}
@@ -77,6 +74,7 @@ const ProjectList: React.FC = () => {
               field={col.field}
               header={col.headerName}
               key={key}
+              body={col.body}
             ></Column>
           ))}
         </DataTable>

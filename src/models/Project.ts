@@ -1,11 +1,13 @@
+import { Member } from './Member';
+
 export type Project = {
-  id: string;
+  _id: string;
   startDate: Date;
   endDate: Date;
   number: number;
   name: string;
   customer: string;
   group: string;
-  members: string;
+  members: Member[];
   status: string;
 };

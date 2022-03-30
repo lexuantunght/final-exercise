@@ -10,7 +10,7 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { useFormik } from 'formik';
+import { FormikHelpers, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../utils/redux/store';
 import { DispatchType } from '../../common/constants';
@@ -18,17 +18,33 @@ import useFetchGroups from '../../hooks/useGroups';
 import LoadingMask from '../../common/components/LoadingMask';
 import useFetchStatuses from '../../hooks/useStatuses';
 import useFetchMembers from '../../hooks/useMembers';
-
+import { useHistory } from 'react-router-dom';
+import useAddProject from '../../hooks/useAddProject';
+import { useQueryClient } from 'react-query';
+import { GET_ALL_PROJECT_KEY } from '../../common/QueryKeys';
 const CreateProjectPage: React.FC<BasePageProps> = (props) => {
   const { t } = props;
   const dispatch = useDispatch();
-  const errorInput = React.useRef<any>(null);
+  const history = useHistory();
+  const pushInfo = React.useRef<any>(null);
+  const queryClient = useQueryClient();
   const { data: groups, isLoading: isGroupsLoading } = useFetchGroups();
   const { data: statuses, isLoading: isStatusesLoading } = useFetchStatuses();
   const { data: members, isLoading: isMembersLoading } = useFetchMembers();
   const filteredMembers = useSelector(
     (state: RootState) => state.create_proj.filteredMembers
   );
+  const { mutateAsync } = useAddProject();
+
+  const onAddProject = async (
+    values: any,
+    { resetForm }: FormikHelpers<any>
+  ) => {
+    await mutateAsync(values);
+    queryClient.invalidateQueries(GET_ALL_PROJECT_KEY);
+    resetForm();
+    showAddSuccess();
+  };
 
   const searchMember = (event: { query: string }) => {
     setTimeout(() => {
@@ -52,11 +68,22 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
   };
 
   const showErrorInput = (isShow: boolean) => {
-    if (isShow && errorInput.current) {
-      errorInput.current.show({
+    if (isShow && pushInfo.current) {
+      pushInfo.current.show({
         severity: 'error',
-        summary: 'Error inputation',
-        detail: 'Please input all required fields',
+        summary: t('errorInput'),
+        detail: t('pleaseInput'),
+        life: 3000,
+      });
+    }
+  };
+
+  const showAddSuccess = () => {
+    if (pushInfo.current) {
+      pushInfo.current.show({
+        severity: 'success',
+        summary: t('success'),
+        detail: t('addProjectSuccess'),
         life: 3000,
       });
     }
@@ -80,10 +107,17 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
       customer: Yup.string().required(),
       members: Yup.array().min(1).required(),
       status: Yup.string().required(),
-      startDate: Yup.date().required(),
-      endDate: Yup.date(),
+      endDate: Yup.date().nullable(true),
+      startDate: Yup.date()
+        .required()
+        .test('startDate-valid', '', function (value) {
+          if (!value || !this.parent.endDate) {
+            return true;
+          }
+          return this.parent.endDate.getTime() >= value.getTime();
+        }),
     }),
-    onSubmit: () => {},
+    onSubmit: onAddProject,
   });
 
   if (isGroupsLoading || isStatusesLoading || isMembersLoading) {
@@ -144,14 +178,14 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
               <div className="flex flex-col space-y-2">
                 <label htmlFor="group">{t('group')}</label>
                 <Dropdown
-                  id="group"
+                  inputId="group"
                   name="group"
                   options={groups}
                   value={formik.values.group}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   optionLabel="name"
-                  optionValue="id"
+                  optionValue="name"
                   className={
                     formik.touched.group && formik.errors.group
                       ? 'p-invalid'
@@ -162,8 +196,8 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
               <div className="flex flex-col space-y-2 p-fluid">
                 <label htmlFor="members">{t('members')}</label>
                 <AutoComplete
-                  id="members"
                   name="members"
+                  inputId="members"
                   value={formik.values.members}
                   suggestions={filteredMembers}
                   completeMethod={searchMember}
@@ -181,14 +215,14 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
               <div className="flex flex-col space-y-2">
                 <label htmlFor="status">{t('status')}</label>
                 <Dropdown
-                  id="status"
+                  inputId="status"
                   name="status"
                   options={statuses}
                   value={formik.values.status}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   optionLabel="name"
-                  optionValue="id"
+                  optionValue="name"
                   className={
                     formik.touched.status && formik.errors.status
                       ? 'p-invalid'
@@ -200,7 +234,7 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="startDate">{t('startDate')}</label>
                   <Calendar
-                    id="startDate"
+                    inputId="startDate"
                     name="startDate"
                     value={formik.values.startDate}
                     onChange={formik.handleChange}
@@ -216,11 +250,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="endDate">{t('endDate')}</label>
                   <Calendar
-                    id="endDate"
+                    inputId="endDate"
                     name="endDate"
                     value={formik.values.endDate}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    minDate={formik.values.startDate}
                     showIcon
                     className={
                       formik.touched.endDate && formik.errors.endDate
@@ -233,9 +268,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
               <Divider />
               <div className="flex justify-end md:space-x-10 space-x-4 mb-4 pt-4">
                 <Button
+                  type="button"
                   icon="pi pi-times"
                   className="p-button-danger"
                   label={t('cancel')}
+                  onClick={() => history.push('/project-list')}
+                  disabled={formik.isSubmitting}
                 />
                 <Button
                   type="submit"
@@ -248,13 +286,15 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                         showErrorInput(Object.keys(err).length > 0)
                       )
                   }
+                  loading={formik.isSubmitting}
+                  disabled={!formik.isValid || formik.isSubmitting}
                 />
               </div>
             </form>
           </div>
         </div>
       </Card>
-      <Toast ref={errorInput} position="top-right" />
+      <Toast ref={pushInfo} position="top-right" />
     </PageWrapper>
   );
 };
