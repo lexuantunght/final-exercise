@@ -6,9 +6,9 @@ import { GET_ALL_MEMBER_KEY } from '../common/QueryKeys';
 import { Member } from '../models/Member';
 
 export default function useFetchMembers(): UseQueryResult<Member[], Error> {
-    return useQuery<Member[], Error>(GET_ALL_MEMBER_KEY, () =>
-        axiosInstance
-            .get(`${CONFIG.API_BASE_URL}/members`)
-            .then((res: AxiosResponse<Member[]>) => res.data)
-    );
+  return useQuery<Member[], Error>(GET_ALL_MEMBER_KEY, () =>
+    axiosInstance
+      .get(`${CONFIG.API_BASE_URL}/members`)
+      .then((res: AxiosResponse<Member[]>) => res.data)
+  );
 }

@@ -1,23 +1,23 @@
-import React from "react";
-import * as Yup from "yup";
-import PageWrapper from "../../common/components/PageWrapper";
-import { BasePageProps } from "../../common/models";
-import { Card } from "primereact/card";
-import { Divider } from "primereact/divider";
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
-import { AutoComplete } from "primereact/autocomplete";
-import { Calendar } from "primereact/calendar";
-import { Button } from "primereact/button";
-import { Toast } from "primereact/toast";
-import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../utils/redux/store";
-import { DispatchType } from "../../common/constants";
-import useFetchGroups from "../../hooks/useGroups";
-import LoadingMask from "../../common/components/LoadingMask";
-import useFetchStatuses from "../../hooks/useStatuses";
-import useFetchMembers from "../../hooks/useMembers";
+import React from 'react';
+import * as Yup from 'yup';
+import PageWrapper from '../../common/components/PageWrapper';
+import { BasePageProps } from '../../common/models';
+import { Card } from 'primereact/card';
+import { Divider } from 'primereact/divider';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import { AutoComplete } from 'primereact/autocomplete';
+import { Calendar } from 'primereact/calendar';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
+import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../utils/redux/store';
+import { DispatchType } from '../../common/constants';
+import useFetchGroups from '../../hooks/useGroups';
+import LoadingMask from '../../common/components/LoadingMask';
+import useFetchStatuses from '../../hooks/useStatuses';
+import useFetchMembers from '../../hooks/useMembers';
 
 const CreateProjectPage: React.FC<BasePageProps> = (props) => {
   const { t } = props;
@@ -54,9 +54,9 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
   const showErrorInput = (isShow: boolean) => {
     if (isShow && errorInput.current) {
       errorInput.current.show({
-        severity: "error",
-        summary: "Error inputation",
-        detail: "Please input all required fields",
+        severity: 'error',
+        summary: 'Error inputation',
+        detail: 'Please input all required fields',
         life: 3000,
       });
     }
@@ -64,12 +64,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      number: "",
-      name: "",
-      group: "",
-      customer: "",
+      number: '',
+      name: '',
+      group: '',
+      customer: '',
       members: [],
-      status: "",
+      status: '',
       startDate: new Date(),
       endDate: new Date(),
     },
@@ -95,11 +95,11 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
       <Card>
         <div className="flex justify-center">
           <div className="w-full md:w-3/5 xl:w-1/2">
-            <div className="font-bold md:text-lg">{t("newProject")}</div>
+            <div className="font-bold md:text-lg">{t('newProject')}</div>
             <Divider />
             <form className="space-y-4" onSubmit={formik.handleSubmit}>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="number">{t("projectNumber")}</label>
+                <label htmlFor="number">{t('projectNumber')}</label>
                 <InputText
                   id="number"
                   name="number"
@@ -108,13 +108,13 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   onBlur={formik.handleBlur}
                   className={
                     formik.touched.number && formik.errors.number
-                      ? "p-invalid w-max"
-                      : "w-max"
+                      ? 'p-invalid w-max'
+                      : 'w-max'
                   }
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="name">{t("projectName")}</label>
+                <label htmlFor="name">{t('projectName')}</label>
                 <InputText
                   id="name"
                   name="name"
@@ -122,12 +122,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className={
-                    formik.touched.name && formik.errors.name ? "p-invalid" : ""
+                    formik.touched.name && formik.errors.name ? 'p-invalid' : ''
                   }
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="customer">{t("customer")}</label>
+                <label htmlFor="customer">{t('customer')}</label>
                 <InputText
                   id="customer"
                   name="customer"
@@ -136,13 +136,13 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   onBlur={formik.handleBlur}
                   className={
                     formik.touched.customer && formik.errors.customer
-                      ? "p-invalid"
-                      : ""
+                      ? 'p-invalid'
+                      : ''
                   }
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="group">{t("group")}</label>
+                <label htmlFor="group">{t('group')}</label>
                 <Dropdown
                   id="group"
                   name="group"
@@ -154,13 +154,13 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   optionValue="id"
                   className={
                     formik.touched.group && formik.errors.group
-                      ? "p-invalid"
-                      : ""
+                      ? 'p-invalid'
+                      : ''
                   }
                 />
               </div>
               <div className="flex flex-col space-y-2 p-fluid">
-                <label htmlFor="members">{t("members")}</label>
+                <label htmlFor="members">{t('members')}</label>
                 <AutoComplete
                   id="members"
                   name="members"
@@ -173,13 +173,13 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   onBlur={formik.handleBlur}
                   className={
                     formik.touched.members && formik.errors.members
-                      ? "p-invalid"
-                      : ""
+                      ? 'p-invalid'
+                      : ''
                   }
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="status">{t("status")}</label>
+                <label htmlFor="status">{t('status')}</label>
                 <Dropdown
                   id="status"
                   name="status"
@@ -191,14 +191,14 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   optionValue="id"
                   className={
                     formik.touched.status && formik.errors.status
-                      ? "p-invalid"
-                      : ""
+                      ? 'p-invalid'
+                      : ''
                   }
                 />
               </div>
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:justify-between pb-4">
                 <div className="flex flex-col space-y-2">
-                  <label htmlFor="startDate">{t("startDate")}</label>
+                  <label htmlFor="startDate">{t('startDate')}</label>
                   <Calendar
                     id="startDate"
                     name="startDate"
@@ -208,13 +208,13 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                     showIcon
                     className={
                       formik.touched.startDate && formik.errors.startDate
-                        ? "p-invalid"
-                        : ""
+                        ? 'p-invalid'
+                        : ''
                     }
                   />
                 </div>
                 <div className="flex flex-col space-y-2">
-                  <label htmlFor="endDate">{t("endDate")}</label>
+                  <label htmlFor="endDate">{t('endDate')}</label>
                   <Calendar
                     id="endDate"
                     name="endDate"
@@ -224,8 +224,8 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                     showIcon
                     className={
                       formik.touched.endDate && formik.errors.endDate
-                        ? "p-invalid"
-                        : ""
+                        ? 'p-invalid'
+                        : ''
                     }
                   />
                 </div>
@@ -235,12 +235,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 <Button
                   icon="pi pi-times"
                   className="p-button-danger"
-                  label={t("cancel")}
+                  label={t('cancel')}
                 />
                 <Button
                   type="submit"
                   icon="pi pi-check"
-                  label={t("create")}
+                  label={t('create')}
                   onClick={() =>
                     formik
                       .validateForm()

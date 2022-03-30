@@ -10,79 +10,79 @@ import LoadingMask from '../../common/components/LoadingMask';
 import PageWrapper from '../../common/components/PageWrapper';
 
 const columns = [
-    {
-        field: 'number',
-        headerName: 'Number',
-    },
-    {
-        field: 'name',
-        headerName: 'Name',
-    },
-    {
-        field: 'customer',
-        headerName: 'Customer',
-    },
-    {
-        field: 'startDate',
-        headerName: 'Start Date',
-    },
-    {
-        field: 'endDate',
-        headerName: 'End Date',
-    },
-    {
-        field: 'group',
-        headerName: 'Group',
-    },
-    {
-        field: 'members',
-        headerName: 'Members',
-    },
-    {
-        field: 'status',
-        headerName: 'Status',
-    },
+  {
+    field: 'number',
+    headerName: 'Number',
+  },
+  {
+    field: 'name',
+    headerName: 'Name',
+  },
+  {
+    field: 'customer',
+    headerName: 'Customer',
+  },
+  {
+    field: 'startDate',
+    headerName: 'Start Date',
+  },
+  {
+    field: 'endDate',
+    headerName: 'End Date',
+  },
+  {
+    field: 'group',
+    headerName: 'Group',
+  },
+  {
+    field: 'members',
+    headerName: 'Members',
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+  },
 ];
 
 const ProjectList: React.FC = () => {
-    const { data, isLoading } = useFetchProjects();
+  const { data, isLoading } = useFetchProjects();
 
-    const mapDisplayDate = (project: Project) =>
-        Object.assign(project, {
-            startDate: moment(project.startDate).format('yyyy-MM-DD'),
-            endDate: moment(project.endDate).format('yyyy-MM-DD'),
-        });
+  const mapDisplayDate = (project: Project) =>
+    Object.assign(project, {
+      startDate: moment(project.startDate).format('yyyy-MM-DD'),
+      endDate: moment(project.endDate).format('yyyy-MM-DD'),
+    });
 
-    if (isLoading) {
-        return <LoadingMask />;
-    }
+  if (isLoading) {
+    return <LoadingMask />;
+  }
 
-    return (
-        <PageWrapper>
-            <Card>
-                <DataTable
-                    value={data?.map(mapDisplayDate)}
-                    paginator
-                    paginatorTemplate={paginatorTemp}
-                    first={0}
-                    rows={10}
-                    onPage={() => {}}
-                    paginatorClassName="justify-content-end"
-                    responsiveLayout="scroll"
-                    rowHover
-                    showGridlines
-                >
-                    {columns.map((col, key) => (
-                        <Column
-                            field={col.field}
-                            header={col.headerName}
-                            key={key}
-                        ></Column>
-                    ))}
-                </DataTable>
-            </Card>
-        </PageWrapper>
-    );
+  return (
+    <PageWrapper>
+      <Card>
+        <DataTable
+          value={data?.map(mapDisplayDate)}
+          paginator
+          paginatorTemplate={paginatorTemp}
+          first={0}
+          rows={10}
+          onPage={() => {}}
+          paginatorClassName="justify-content-end"
+          responsiveLayout="scroll"
+          rowHover
+          showGridlines
+        >
+          {columns.map((col, key) => (
+            <Column
+              field={col.field}
+              header={col.headerName}
+              key={key}
+            ></Column>
+          ))}
+        </DataTable>
+      </Card>
+    </PageWrapper>
+  );
 };
 
 export default ProjectList;

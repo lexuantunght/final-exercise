@@ -1,8 +1,8 @@
-import React from "react";
-import { Dropdown } from "primereact/dropdown";
+import React from 'react';
+import { Dropdown } from 'primereact/dropdown';
 
 const paginatorTemp = {
-  layout: "RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink",
+  layout: 'RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink',
   FirstPageLink: undefined,
   PrevPageLink: undefined,
   PageLinks: undefined,
@@ -20,9 +20,9 @@ const paginatorTemp = {
       <React.Fragment>
         <span
           className="mx-1"
-          style={{ color: "var(--text-color)", userSelect: "none" }}
+          style={{ color: 'var(--text-color)', userSelect: 'none' }}
         >
-          Items per page:{" "}
+          Items per page:{' '}
         </span>
         <Dropdown
           value={options.value}
@@ -36,10 +36,10 @@ const paginatorTemp = {
     return (
       <span
         style={{
-          color: "var(--text-color)",
-          userSelect: "none",
-          width: "120px",
-          textAlign: "center",
+          color: 'var(--text-color)',
+          userSelect: 'none',
+          width: '120px',
+          textAlign: 'center',
         }}
       >
         {options.first} - {options.last} of {options.totalRecords}
