@@ -11,6 +11,7 @@ const paginatorTemp = {
   JumpToPageInput: undefined,
   RowsPerPageDropdown: (options: any) => {
     const dropdownOptions = [
+      { label: 5, value: 5 },
       { label: 10, value: 10 },
       { label: 20, value: 20 },
       { label: 50, value: 50 },

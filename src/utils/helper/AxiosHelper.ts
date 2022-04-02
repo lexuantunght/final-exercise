@@ -23,7 +23,6 @@ const handleError = (err: any) => {
 };
 
 export const getHelper = async (api: string, headers: any = defaultHeader) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   const data = await axios
     .get(api, { headers })
     .then((response) => response.data)
@@ -41,7 +40,6 @@ export const postHelper = async (
   body: any,
   headers: any = defaultHeader
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   const data = await axios
     .post(api, body, { headers })
     .then((response) => response.data)
@@ -54,7 +52,6 @@ export const putHelper = async (
   body: any,
   headers: any = defaultHeader
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   const data = await axios
     .put(api, body, { headers })
     .then((response) => response.data)
@@ -66,7 +63,6 @@ export const deleteHelper = async (
   api: string,
   headers: any = defaultHeader
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   const data = await axios
     .delete(api, { headers })
     .then((response) => response.data)

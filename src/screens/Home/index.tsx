@@ -51,10 +51,22 @@ const DashboardPage: React.FC<BasePageProps> = (props) => {
             header={t('numberOfProjects')}
             body={(rowData) => rowData?.projects.length}
           ></Column>
-          <Column header={t('options')}>View</Column>
         </DataTable>
       </Panel>
-      <Panel header={t('recentProjects')}></Panel>
+      <Panel header={t('recentProjects')}>
+        <DataTable
+          value={data?.recentProjects}
+          responsiveLayout="scroll"
+          rowHover
+          showGridlines
+        >
+          <Column field="number" header={t('number')}></Column>
+          <Column field="name" header={t('name')}></Column>
+          <Column field="customer" header={t('customer')}></Column>
+          <Column field="group" header={t('group')}></Column>
+          <Column field="status" header={t('status')}></Column>
+        </DataTable>
+      </Panel>
     </PageWrapper>
   );
 };

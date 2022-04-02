@@ -133,7 +133,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
             <Divider />
             <form className="space-y-4" onSubmit={formik.handleSubmit}>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="number">{t('projectNumber')}</label>
+                <label htmlFor="number">
+                  {t('projectNumber')}
+                  <span className="text-red-500"> *</span>
+                </label>
                 <InputText
                   id="number"
                   name="number"
@@ -148,7 +151,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="name">{t('projectName')}</label>
+                <label htmlFor="name">
+                  {t('projectName')}
+                  <span className="text-red-500"> *</span>
+                </label>
                 <InputText
                   id="name"
                   name="name"
@@ -161,7 +167,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="customer">{t('customer')}</label>
+                <label htmlFor="customer">
+                  {t('customer')}
+                  <span className="text-red-500"> *</span>
+                </label>
                 <InputText
                   id="customer"
                   name="customer"
@@ -176,7 +185,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="group">{t('group')}</label>
+                <label htmlFor="group">
+                  {t('group')}
+                  <span className="text-red-500"> *</span>
+                </label>
                 <Dropdown
                   inputId="group"
                   name="group"
@@ -194,7 +206,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 />
               </div>
               <div className="flex flex-col space-y-2 p-fluid">
-                <label htmlFor="members">{t('members')}</label>
+                <label htmlFor="members">
+                  {t('members')}
+                  <span className="text-red-500"> *</span>
+                </label>
                 <AutoComplete
                   name="members"
                   inputId="members"
@@ -213,7 +228,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label htmlFor="status">{t('status')}</label>
+                <label htmlFor="status">
+                  {t('status')}
+                  <span className="text-red-500"> *</span>
+                </label>
                 <Dropdown
                   inputId="status"
                   name="status"
@@ -232,7 +250,10 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
               </div>
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:justify-between pb-4">
                 <div className="flex flex-col space-y-2">
-                  <label htmlFor="startDate">{t('startDate')}</label>
+                  <label htmlFor="startDate">
+                    {t('startDate')}
+                    <span className="text-red-500"> *</span>
+                  </label>
                   <Calendar
                     inputId="startDate"
                     name="startDate"
@@ -266,6 +287,11 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                 </div>
               </div>
               <Divider />
+              <br />
+              <span>
+                <span className="text-red-500">(*) </span>
+                {t('mandatory')}
+              </span>
               <div className="flex justify-end md:space-x-10 space-x-4 mb-4 pt-4">
                 <Button
                   type="button"
@@ -276,15 +302,14 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
                   disabled={formik.isSubmitting}
                 />
                 <Button
-                  type="submit"
+                  type="button"
                   icon="pi pi-check"
                   label={t('create')}
                   onClick={() =>
-                    formik
-                      .validateForm()
-                      .then((err) =>
-                        showErrorInput(Object.keys(err).length > 0)
-                      )
+                    formik.validateForm().then((err) => {
+                      formik.submitForm();
+                      showErrorInput(Object.keys(err).length > 0);
+                    })
                   }
                   loading={formik.isSubmitting}
                   disabled={!formik.isValid || formik.isSubmitting}

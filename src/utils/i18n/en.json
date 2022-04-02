@@ -31,5 +31,6 @@
   "errorInput": "Error inputation",
   "pleaseInput": "Please input all required fields",
   "success": "Success",
-  "addProjectSuccess": "Project was added successfully"
+  "addProjectSuccess": "Project was added successfully",
+  "mandatory": "Mandatory"
 }

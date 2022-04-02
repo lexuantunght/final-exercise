@@ -56,7 +56,7 @@ const ProjectList: React.FC = () => {
 
   return (
     <PageWrapper>
-      <Card>
+      <Card className="flex-1">
         <DataTable
           value={data}
           paginator
