@@ -11,6 +11,10 @@
 # production
 /build
 
+#test report
+/cypress/videos
+/cypress/photos
+
 # misc
 .DS_Store
 .env.local
