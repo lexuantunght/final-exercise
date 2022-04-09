@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -42,6 +43,12 @@ module.exports = {
             template: path.join(__dirname, "public", "index.html"),
             favicon: path.join(__dirname, "public", "favicon.ico"),
         }),
-        new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin(),
     ],
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin({
+            test: /\.js(\?.*)?$/i
+        })],
+    },
 };
