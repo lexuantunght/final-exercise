@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import { combineReducers } from 'redux';
 import { DispatchType } from '../../common/constants';
 import createProjReducer from '../../screens/CreateProject/reducer';
+import listProjReducer from '../../screens/ProjectList/reducer';
 
 type AppState = {
   isError: boolean | string;
@@ -33,6 +34,7 @@ const appReducer = (state = defaultAppStates, action: any) => {
 const reducer = combineReducers({
   app: appReducer,
   create_proj: createProjReducer,
+  list_proj: listProjReducer,
 });
 
 export default reducer;

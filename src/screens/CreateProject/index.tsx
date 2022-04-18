@@ -40,10 +40,12 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
     values: any,
     { resetForm }: FormikHelpers<any>
   ) => {
-    await mutateAsync(values);
-    queryClient.invalidateQueries(GET_ALL_PROJECT_KEY);
-    resetForm();
-    showAddSuccess();
+    const res = await mutateAsync(values);
+    if (res.status === 'success') {
+      queryClient.invalidateQueries(GET_ALL_PROJECT_KEY);
+      resetForm();
+      showAddSuccess();
+    }
   };
 
   const searchMember = (event: { query: string }) => {

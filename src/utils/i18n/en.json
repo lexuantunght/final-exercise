@@ -32,5 +32,14 @@
   "pleaseInput": "Please input all required fields",
   "success": "Success",
   "addProjectSuccess": "Project was added successfully",
-  "mandatory": "Mandatory"
+  "mandatory": "Mandatory",
+  "fail": "Fail",
+  "baseSearchInfo": "Project number, name, customer name",
+  "projectStatus": "Project status",
+  "searchProject": "Search project",
+  "resetSearch": "Reset search",
+  "useAdvanced": "Use advanced",
+  "selectRange": "Select a range",
+  "containMember": "Contain member",
+  "enterVisa": "Enter visa"
 }

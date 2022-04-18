@@ -10,6 +10,7 @@ import HeaderBar from './common/components/HeaderBar';
 import DashboardPage from './screens/Home';
 import ProjectList from './screens/ProjectList';
 import CreateProjectPage from './screens/CreateProject';
+import { Toast } from 'primereact/toast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,8 @@ function App() {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const lang = useSelector((state: RootState) => state.app.lang);
+  const isError = useSelector((state: RootState) => state.app.isError);
+  const pushInfo = React.useRef<any>(null);
 
   const changeTheme = (theme: string) => {
     const themeLink = document.getElementById('app-theme') as HTMLLinkElement;
@@ -55,6 +58,17 @@ function App() {
     onChangePalette(theme);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  React.useEffect(() => {
+    if (isError) {
+      pushInfo.current.show({
+        severity: 'error',
+        summary: t('fail'),
+        detail: isError,
+        life: 3000,
+      });
+    }
+  }, [isError]);
+
   const pageProps = {
     t,
     lang,
@@ -79,6 +93,13 @@ function App() {
               <Redirect to="/home" />
             </Route>
           </Switch>
+          <Toast
+            ref={pushInfo}
+            onHide={() =>
+              dispatch({ type: DispatchType.APP.ERROR, data: false })
+            }
+            position="top-right"
+          />
         </div>
       </BrowserRouter>
     </QueryClientProvider>
