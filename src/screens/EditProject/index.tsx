@@ -1,32 +1,35 @@
 import React from 'react';
-import PageWrapper from '../../common/components/PageWrapper';
-import { BasePageProps } from '../../common/models';
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
-import { FormikHelpers } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../utils/redux/store';
-import { DispatchType } from '../../common/constants';
-import useFetchGroups from '../../hooks/useGroups';
-import LoadingMask from '../../common/components/LoadingMask';
-import useFetchStatuses from '../../hooks/useStatuses';
-import useFetchMembers from '../../hooks/useMembers';
-import { useHistory } from 'react-router-dom';
-import useAddProject from '../../hooks/useAddProject';
-import { useQueryClient } from 'react-query';
-import { GET_ALL_PROJECT_KEY } from '../../common/QueryKeys';
-import ProjectInputForm from './components/ProjectInputForm';
 import { Toast } from 'primereact/toast';
+import { useHistory, useParams } from 'react-router-dom';
+import { FormikHelpers } from 'formik';
+import { useQueryClient } from 'react-query';
+import { useDispatch, useSelector } from 'react-redux';
+import PageWrapper from '../../common/components/PageWrapper';
+import { BasePageProps } from '../../common/models';
+import ProjectInputForm from '../CreateProject/components/ProjectInputForm';
+import useFetchGroups from '../../hooks/useGroups';
+import useFetchStatuses from '../../hooks/useStatuses';
+import useFetchMemers from '../../hooks/useMembers';
+import LoadingMask from '../../common/components/LoadingMask';
+import { RootState } from '../../utils/redux/store';
+import { GET_ALL_PROJECT_KEY } from '../../common/QueryKeys';
+import { DispatchType } from '../../common/constants';
+import useAddProject from '../../hooks/useAddProject';
+import useGetProject from '../../hooks/useGetProject';
 
-const CreateProjectPage: React.FC<BasePageProps> = (props) => {
+const EditProjectPage: React.FC<BasePageProps> = (props) => {
   const { t } = props;
+  const pushInfo = React.useRef<any>(null);
+  const { projectNumber } = useParams<{ projectNumber?: string }>();
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const history = useHistory();
-  const pushInfo = React.useRef<any>(null);
-  const queryClient = useQueryClient();
   const { data: groups, isLoading: isGroupsLoading } = useFetchGroups();
   const { data: statuses, isLoading: isStatusesLoading } = useFetchStatuses();
-  const { data: members, isLoading: isMembersLoading } = useFetchMembers();
+  const { data: members, isLoading: isMembersLoading } = useFetchMemers();
+  const { data: project, isLoading } = useGetProject(Number(projectNumber));
   const filteredMembers = useSelector(
     (state: RootState) => state.create_proj.filteredMembers
   );
@@ -87,7 +90,7 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
     }
   };
 
-  if (isGroupsLoading || isStatusesLoading || isMembersLoading) {
+  if (isLoading || isGroupsLoading || isStatusesLoading || isMembersLoading) {
     return <LoadingMask />;
   }
 
@@ -96,10 +99,11 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
       <Card>
         <div className="flex justify-center">
           <div className="w-full md:w-3/5 xl:w-1/2">
-            <div className="font-bold md:text-lg">{t('newProject')}</div>
+            <div className="font-bold md:text-lg">{t('editProject')}</div>
             <Divider />
             <ProjectInputForm
               t={t}
+              isEdit
               statuses={statuses}
               groups={groups}
               onSubmitProject={onAddProject}
@@ -116,4 +120,4 @@ const CreateProjectPage: React.FC<BasePageProps> = (props) => {
   );
 };
 
-export default CreateProjectPage;
+export default EditProjectPage;

@@ -41,5 +41,15 @@
   "useAdvanced": "Use advanced",
   "selectRange": "Select a range",
   "containMember": "Contain member",
-  "enterVisa": "Enter visa"
+  "enterVisa": "Enter visa",
+  "relatedName": "Related name",
+  "delete": "Delete",
+  "itemSelected": "item selected",
+  "itemsSelected": "items selected",
+  "deleteSelectedItem": "Delete selected item",
+  "deleteSelectedItems": "Delete selected items",
+  "confirmation": "Confirmation",
+  "confirmMsg": "Are you sure you want to delete",
+  "editProject": "Edit project",
+  "edit": "Edit"
 }

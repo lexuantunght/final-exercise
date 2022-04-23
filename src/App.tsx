@@ -11,6 +11,7 @@ import DashboardPage from './screens/Home';
 import ProjectList from './screens/ProjectList';
 import CreateProjectPage from './screens/CreateProject';
 import { Toast } from 'primereact/toast';
+import EditProjectPage from './screens/EditProject';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,10 +81,13 @@ function App() {
         <div className="flex flex-col p-4 min-h-screen">
           <HeaderBar onChangeTheme={onChangePalette} />
           <Switch>
-            <Route path="/create-project">
+            <Route path="/edit-project/:projectNumber" exact>
+              <EditProjectPage {...pageProps} />
+            </Route>
+            <Route path="/create-project" exact>
               <CreateProjectPage {...pageProps} />
             </Route>
-            <Route path="/project-list">
+            <Route path="/project-list" exact>
               <ProjectList />
             </Route>
             <Route path="/home" exact>
