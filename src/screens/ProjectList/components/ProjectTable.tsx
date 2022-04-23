@@ -183,7 +183,7 @@ const ProjectTable: React.FC<{
       {data && data.projects.length > 0 && (
         <Paginator
           className="mt-3"
-          template={paginatorTemp}
+          template={paginatorTemp(t)}
           rows={limit}
           first={page * limit}
           totalRecords={data?.totalRecords}

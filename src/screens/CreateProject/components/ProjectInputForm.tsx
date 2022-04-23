@@ -13,6 +13,7 @@ import { FormikHelpers, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Group } from '../../../models/Group';
 import { Status } from '../../../models/Status';
+import { Project } from '../../../models/Project';
 
 const ProjectInputForm: React.FC<{
   t: TFunction;
@@ -27,6 +28,7 @@ const ProjectInputForm: React.FC<{
   searchMember: (e: AutoCompleteCompleteMethodParams) => void;
   onCancel: () => void;
   onShowErrorInput?: CallableFunction;
+  project?: Project;
 }> = ({
   t,
   onSubmitProject,
@@ -37,18 +39,26 @@ const ProjectInputForm: React.FC<{
   onCancel,
   onShowErrorInput,
   isEdit,
+  project,
 }) => {
   const formik = useFormik({
-    initialValues: {
-      number: '',
-      name: '',
-      group: '',
-      customer: '',
-      members: [],
-      status: '',
-      startDate: new Date(),
-      endDate: new Date(),
-    },
+    initialValues:
+      isEdit && project
+        ? {
+            ...project,
+            endDate: new Date(project.endDate),
+            startDate: new Date(project.startDate),
+          }
+        : {
+            number: '',
+            name: '',
+            group: '',
+            customer: '',
+            members: [],
+            status: '',
+            startDate: new Date(),
+            endDate: new Date(),
+          },
     validationSchema: Yup.object({
       number: Yup.number().min(0).max(9999).required(),
       name: Yup.string().required(),

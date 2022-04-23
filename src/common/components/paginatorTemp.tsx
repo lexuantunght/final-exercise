@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dropdown } from 'primereact/dropdown';
+import { TFunction } from 'react-i18next';
 
-const paginatorTemp = {
+const paginatorTemp = (t: TFunction) => ({
   layout: 'RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink',
   FirstPageLink: undefined,
   PrevPageLink: undefined,
@@ -23,7 +24,7 @@ const paginatorTemp = {
           className="mx-1"
           style={{ color: 'var(--text-color)', userSelect: 'none' }}
         >
-          Items per page:{' '}
+          {`${t('itemsPerPage')} `}
         </span>
         <Dropdown
           value={options.value}
@@ -47,6 +48,6 @@ const paginatorTemp = {
       </span>
     );
   },
-};
+});
 
 export default paginatorTemp;

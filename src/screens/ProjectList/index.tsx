@@ -3,7 +3,7 @@ import { Card } from 'primereact/card';
 import { PaginatorPageState } from 'primereact/paginator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQueryClient } from 'react-query';
-import { GET_ALL_PROJECT_KEY, GET_HOME_DATA_KEY } from '../../common/QueryKeys';
+import { GET_ALL_PROJECT_KEY } from '../../common/QueryKeys';
 import { RootState } from '../../utils/redux/store';
 import LoadingMask from '../../common/components/LoadingMask';
 import PageWrapper from '../../common/components/PageWrapper';

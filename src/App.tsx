@@ -68,7 +68,7 @@ function App() {
         life: 3000,
       });
     }
-  }, [isError]);
+  }, [isError]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const pageProps = {
     t,

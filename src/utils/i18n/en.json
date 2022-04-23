@@ -51,5 +51,6 @@
   "confirmation": "Confirmation",
   "confirmMsg": "Are you sure you want to delete",
   "editProject": "Edit project",
-  "edit": "Edit"
+  "edit": "Edit",
+  "itemsPerPage": "Items per page"
 }

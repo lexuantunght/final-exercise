@@ -3,7 +3,6 @@ import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import { Toast } from 'primereact/toast';
 import { useHistory, useParams } from 'react-router-dom';
-import { FormikHelpers } from 'formik';
 import { useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import PageWrapper from '../../common/components/PageWrapper';
@@ -16,8 +15,8 @@ import LoadingMask from '../../common/components/LoadingMask';
 import { RootState } from '../../utils/redux/store';
 import { GET_ALL_PROJECT_KEY } from '../../common/QueryKeys';
 import { DispatchType } from '../../common/constants';
-import useAddProject from '../../hooks/useAddProject';
 import useGetProject from '../../hooks/useGetProject';
+import useEditProject from '../../hooks/useEditProject';
 
 const EditProjectPage: React.FC<BasePageProps> = (props) => {
   const { t } = props;
@@ -33,17 +32,13 @@ const EditProjectPage: React.FC<BasePageProps> = (props) => {
   const filteredMembers = useSelector(
     (state: RootState) => state.create_proj.filteredMembers
   );
-  const { mutateAsync } = useAddProject();
+  const { mutateAsync } = useEditProject();
 
-  const onAddProject = async (
-    values: any,
-    { resetForm }: FormikHelpers<any>
-  ) => {
-    const res = await mutateAsync(values);
+  const onEditProject = async (values: any) => {
+    const res = await mutateAsync({ projectNumber, data: values });
     if (res.status === 'success') {
       queryClient.invalidateQueries(GET_ALL_PROJECT_KEY);
-      resetForm();
-      showAddSuccess();
+      history.push('/project-list');
     }
   };
 
@@ -66,17 +61,6 @@ const EditProjectPage: React.FC<BasePageProps> = (props) => {
         data: _filteredMembers,
       });
     }, 250);
-  };
-
-  const showAddSuccess = () => {
-    if (pushInfo.current) {
-      pushInfo.current.show({
-        severity: 'success',
-        summary: t('success'),
-        detail: t('addProjectSuccess'),
-        life: 3000,
-      });
-    }
   };
 
   const showErrorInput = (isShow: boolean) => {
@@ -106,11 +90,12 @@ const EditProjectPage: React.FC<BasePageProps> = (props) => {
               isEdit
               statuses={statuses}
               groups={groups}
-              onSubmitProject={onAddProject}
+              onSubmitProject={onEditProject}
               filteredMembers={filteredMembers}
               searchMember={searchMember}
               onCancel={() => history.push('/project-list')}
               onShowErrorInput={showErrorInput}
+              project={project}
             />
           </div>
         </div>
